@@ -10,9 +10,13 @@ import (
 	"github.com/go-gl/gl"
 )
 
+type Texture struct {
+	*glh.Texture
+}
+
 //Binds texture to GL_TEXTUREx where x is the parameter num
 //sets the sampler uniform to the TEXTURE value give
-func BindToTexture(tex *glh.Texture, num int) {
+func (tex Texture) BindTo(num int) {
 	if(num >= 32 || num <0) {
 		fmt.Printf("ERROR at bind tex out of bounds")
 		return;
@@ -21,17 +25,10 @@ func BindToTexture(tex *glh.Texture, num int) {
 	tex.Bind(gl.TEXTURE_2D)
 }
 
-//TODO
-//Refactor into method of program
-//Activates the texture in the program
-func LinkTexture(prog gl.Program, smpler2Dname string, num int) {
-	texSampler := prog.GetUniformLocation(smpler2Dname)
-	texSampler.Uniform1i(num)
-}
 
 //Turns a PNG image into a GL Texture
 //Takes the path to the PNG image as a parameter
-func CreateTexturePNG(path string) *glh.Texture {
+func CreateTexturePNG(path string) Texture {
 	//Open and decode image
 	img, _ := os.Open(path)
 	im, _ := png.Decode(img)
@@ -40,7 +37,7 @@ func CreateTexturePNG(path string) *glh.Texture {
 	w := im.Bounds().Dx()
 	h := im.Bounds().Dy()
 
-	tex := &glh.Texture{gl.GenTexture(), w, h}
+	tex := Texture{&glh.Texture{gl.GenTexture(), w, h}}
 
 	tex.Bind(gl.TEXTURE_2D)
 	//set paramters for OGL
