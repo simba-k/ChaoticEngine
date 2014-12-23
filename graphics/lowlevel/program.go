@@ -31,7 +31,7 @@ func LoadShaders(vShade, fShade string) Program {
 }
 
 //Maps the sampler in the program to a texture
-func (prog Program) MapTexture(smpler2Dname string, num int) {
+func (prog Program) MapSampler(smpler2Dname string, num int) {
 	texSampler := prog.GetUniformLocation(smpler2Dname)
 	texSampler.Uniform1i(num)
 }
