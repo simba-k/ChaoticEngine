@@ -1,6 +1,7 @@
 package lowlevel
 
 import (
+	"fmt"
 	"github.com/go-gl/gl"
 )
 
@@ -8,7 +9,7 @@ import (
 //Create VBO from a float32 slice
 //that is in form x1,y1,z1,x2,y2,z2
 //and sets the attribute pointer
-func CreateVBOxyz(data []float32) (vbo gl.Buffer){
+func CreateVBOxyz(data []float32) (vbo gl.Buffer) {
 	vbo = createVBO(data)
 	attribLoc := gl.AttribLocation(0)
 	attribLoc.EnableArray()
@@ -21,7 +22,7 @@ func CreateVBOxyz(data []float32) (vbo gl.Buffer){
 //Create VBO from a float32 slice
 //that is in form x1,y1,x2,y2
 //and sets the attribute pointer
-func CreateVBOxy(data []float32) (vbo gl.Buffer){
+func CreateVBOxy(data []float32) (vbo gl.Buffer) {
 	vbo = createVBO(data)
 	attribLoc := gl.AttribLocation(0)
 	attribLoc.EnableArray()
@@ -34,7 +35,7 @@ func CreateVBOxy(data []float32) (vbo gl.Buffer){
 //Create VBO from a float32 slice
 //that is in form s1,t1,s2,t2
 //and sets the attribute pointer
-func CreateVBOst(data []float32)  (vbo gl.Buffer) {
+func CreateVBOst(data []float32) (vbo gl.Buffer) {
 	vbo = createVBO(data)
 	attribLoc := gl.AttribLocation(1)
 	attribLoc.EnableArray()
@@ -48,4 +49,13 @@ func createVBO(data []float32) (vbo gl.Buffer) {
 	vbo.Bind(gl.ARRAY_BUFFER)
 	gl.BufferData(gl.ARRAY_BUFFER, len(data)*4, data, gl.DYNAMIC_DRAW)
 	return vbo
+}
+
+func CreateUBO(data []float32) (ubo gl.Buffer) {
+	ubo = gl.GenBuffer()
+	ubo.Bind(gl.UNIFORM_BUFFER)
+	fmt.Println("DATAleng ", len(data))
+	gl.BufferData(gl.UNIFORM_BUFFER, len(data) * 4, data, gl.DYNAMIC_DRAW)
+	ubo.Unbind(gl.UNIFORM_BUFFER)
+	return ubo
 }

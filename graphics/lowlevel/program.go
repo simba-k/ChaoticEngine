@@ -1,8 +1,8 @@
 package lowlevel
 
-import(
-	"io/ioutil"
+import (
 	"github.com/go-gl/gl"
+	"io/ioutil"
 )
 
 //TODO
@@ -45,4 +45,10 @@ func createShader(path string, shtype gl.GLenum) gl.Shader {
 	shader.Source(src)
 	shader.Compile()
 	return shader
+}
+
+func (prog Program) LinkUBO(varName string, ubo gl.Buffer) {
+	CheckError("T")
+	ubo.BindBufferBase(gl.UNIFORM_BUFFER, uint(1))
+	CheckError("T3")
 }

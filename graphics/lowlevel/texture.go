@@ -2,12 +2,12 @@ package lowlevel
 
 import (
 	"fmt"
+	"github.com/go-gl/gl"
 	"github.com/go-gl/glh"
 	"image"
 	"image/draw"
 	"image/png"
 	"os"
-	"github.com/go-gl/gl"
 )
 
 type Texture struct {
@@ -17,14 +17,13 @@ type Texture struct {
 //Binds texture to GL_TEXTUREx where x is the parameter num
 //sets the sampler uniform to the TEXTURE value give
 func (tex Texture) BindTo(num int) {
-	if(num >= 32 || num <0) {
+	if num >= 32 || num < 0 {
 		fmt.Printf("ERROR at bind tex out of bounds")
-		return;
+		return
 	}
 	gl.ActiveTexture(gl.GLenum(gl.TEXTURE0 + num))
 	tex.Bind(gl.TEXTURE_2D)
 }
-
 
 //Turns a PNG image into a GL Texture
 //Takes the path to the PNG image as a parameter
@@ -66,5 +65,5 @@ func CreateTexturePNG(path string) Texture {
 
 	gl.GenerateMipmap(gl.TEXTURE_2D)
 	tex.Unbind(gl.TEXTURE_2D)
-	return tex;
+	return tex
 }

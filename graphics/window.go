@@ -1,13 +1,13 @@
 package graphics
 
 import (
-	glfw "github.com/go-gl/glfw3"
 	"github.com/go-gl/gl"
+	glfw "github.com/go-gl/glfw3"
 )
 
 type Window struct {
 	*glfw.Window
-	PressFuncMap map[glfw.Key][]func()
+	PressFuncMap   map[glfw.Key][]func()
 	ReleaseFuncMap map[glfw.Key][]func()
 }
 
@@ -33,12 +33,11 @@ func CreateWindow(w, h int, title string, rzable bool) Window {
 	glfw.WindowHint(glfw.OpenglProfile, glfw.OpenglCoreProfile)
 
 	//Set Resizable
-	if(rzable) {
+	if rzable {
 		glfw.WindowHint(glfw.Resizable, glfw.True)
-	}else{
+	} else {
 		glfw.WindowHint(glfw.Resizable, glfw.False)
 	}
-
 
 	window, err := glfw.CreateWindow(w, h, title, nil, nil)
 	if err != nil {
@@ -58,10 +57,10 @@ func CreateWindow(w, h int, title string, rzable bool) Window {
 	fullWindow := Window{window, make(map[glfw.Key][]func()), make(map[glfw.Key][]func())}
 	window.SetKeyCallback(func(w *glfw.Window, key glfw.Key, scanCode int, action glfw.Action, mods glfw.ModifierKey) {
 		switch action {
-			case glfw.Press:
-				runAll(fullWindow.PressFuncMap[key])
-			case glfw.Release:
-				runAll(fullWindow.ReleaseFuncMap[key])
+		case glfw.Press:
+			runAll(fullWindow.PressFuncMap[key])
+		case glfw.Release:
+			runAll(fullWindow.ReleaseFuncMap[key])
 		}
 	})
 	return fullWindow
