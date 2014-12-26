@@ -55,7 +55,7 @@ func CreateUBO(data []float32) (ubo gl.Buffer) {
 	ubo = gl.GenBuffer()
 	ubo.Bind(gl.UNIFORM_BUFFER)
 	fmt.Println("DATAleng ", len(data))
-	gl.BufferData(gl.UNIFORM_BUFFER, len(data) * 4, data, gl.DYNAMIC_DRAW)
+	gl.BufferData(gl.UNIFORM_BUFFER, len(data)*4, data, gl.DYNAMIC_DRAW)
 	ubo.Unbind(gl.UNIFORM_BUFFER)
 	return ubo
 }

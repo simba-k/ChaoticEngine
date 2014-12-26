@@ -1,13 +1,12 @@
 package graphics
 
 import (
-	"fmt"
 	"github.com/SimbaOps/chaotic/graphics/lowlevel"
 	"github.com/go-gl/gl"
 )
 
 const (
-	DEFAULT_BUF_SIZE = 1000
+	DEFAULT_BUF_SIZE = 1200
 )
 
 var buf drawBuffer
@@ -25,7 +24,7 @@ type drawBuffer struct {
 
 func Init(prog lowlevel.Program) {
 	vertexBuffer := make([]float32, DEFAULT_BUF_SIZE)
-	matBuffer := make([]float32, 48)
+	matBuffer := make([]float32, DEFAULT_BUF_SIZE * 2)
 	buf = drawBuffer{vertexBuffer, vertexBuffer, matBuffer, matBuffer, 0}
 	vao = gl.GenVertexArray()
 	vao.Bind()
@@ -33,10 +32,7 @@ func Init(prog lowlevel.Program) {
 	vao.Unbind()
 
 	idx := prog.GetUniformBlockIndex("mats")
-	lowlevel.CheckError("T1")
-	fmt.Println(idx)
 	prog.UniformBlockBinding(idx, uint(1))
-	lowlevel.CheckError("T2")
 	ubo = lowlevel.CreateUBO(matBuffer)
 	prog.LinkUBO("mats", ubo)
 }
